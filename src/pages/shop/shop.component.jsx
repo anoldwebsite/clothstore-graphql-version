@@ -1,37 +1,15 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import { connect } from "react-redux";
-import { fetchCollectionsStartAsync as unboundImportedFetchFollectionStartAsync} from '../../redux/shop/shop.actions';
-import CollectionsOverviewContainer from '../../components/collections-overview/collections-overview.container';
-import CollectionPageContainer from '../collection/collection.container';
+import {default as CollectionPage} from "../collection/collection.container";
+import { default as CollectionsOverview } from "../../components/collections-overview/collections-overview.container";
 
-class ShopPage extends React.Component {
+//We can rename CollectionsOverviewContainer as CollectionsOverview using default because default is actually already alias for us as an export
 
-  componentDidMount() {
-    const { fetchCollectionsStartAsync } = this.props;
-    fetchCollectionsStartAsync();//We call this function to fetch collections from Firebase database, asynchronously after the component ShopPage mounting completes.
-  }
+const ShopPage = ({ match }) => (
+  <div className="shop-page">
+    <Route exact path={`${match.path}`} component={CollectionsOverview} />
+    <Route path={`${match.path}/:collectionId`} component={CollectionPage} />
+  </div>
+);
 
-  render() {
-    const { match } = this.props;
-    return (
-      <div className="shop-page">
-        <Route
-          exact
-          path={`${match.path}`} // this gives /shop
-          component={CollectionsOverviewContainer}
-        />
-        <Route
-          path={`${match.path}/:collectionId`} //e.g. /shop/hats
-          component={CollectionPageContainer}
-        />
-      </div>
-    );
-  }
-}
-
-const mapDispatchToProps = (dispatch) => ({
-  fetchCollectionsStartAsync: () => dispatch(unboundImportedFetchFollectionStartAsync())
-});
-
-export default connect(null, mapDispatchToProps)(ShopPage);
+export default ShopPage;

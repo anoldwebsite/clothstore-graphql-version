@@ -6,6 +6,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/store';
+import { ApolloProvider } from 'react-apollo';
+import { createHttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloClient, gql } from 'apollo-boost';
+
 /*
 Since we are using react, we will wrap our root component with PersistGate.
  This delays the rendering of our app's User Interface (UI) until our persisted
@@ -17,15 +22,33 @@ Since we are using react, we will wrap our root component with PersistGate.
    and rehydrate our redux store and now even after refreshing the web app,
     we will have acess to the items in our cart as our cart persists.
 */
+
+const httpLink = createHttpLink(
+  { //Backend API endpoint
+    uri: 'https://eu1.prisma.sh/anoldwebsite-760554/clothstoreprisma/dev'
+  }
+);
+
+const cache = new InMemoryCache();
+
+const client = new ApolloClient(
+  {
+    link: httpLink,
+    cache
+  }
+);
+
 ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <React.StrictMode>
-        <PersistGate persistor={persistor}>
-          <App />
-        </PersistGate>
-      </React.StrictMode>
-    </BrowserRouter>
-  </Provider>,
+  <ApolloProvider client={client}>
+    <Provider store={store}>
+      <BrowserRouter>
+        <React.StrictMode>
+          <PersistGate persistor={persistor}>
+            <App />
+          </PersistGate>
+        </React.StrictMode>
+      </BrowserRouter>
+    </Provider>
+  </ApolloProvider>,
   document.getElementById('root')
 );
