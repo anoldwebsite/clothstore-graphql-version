@@ -7,8 +7,6 @@ import {
   NameContainer,
   PriceContainer
 } from './collection-item.styles';
-import { addItem as unboundImportedAddItem } from "../../redux/cart/cart.actions";
-import { connect } from "react-redux";
 
 const CollectionItem = ({ item, addItem }) => {
   const { name, price, imageUrl } = item;
@@ -26,9 +24,4 @@ const CollectionItem = ({ item, addItem }) => {
   );
 };
 
-//Writing our stateUpdater, called maptDispatchToProps in Redux docs.
-const maptDispatchToProps = (dispatch) => ({
-  addItem: (item) => dispatch(unboundImportedAddItem(item)),
-});
-
-export default connect(null, maptDispatchToProps)(CollectionItem);
+export default CollectionItem;

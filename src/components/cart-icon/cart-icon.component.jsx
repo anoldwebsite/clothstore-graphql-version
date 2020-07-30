@@ -2,14 +2,15 @@ import {
   CartContainer,
   ItemCountContainer,
   PriceCountContainer,
-  ShoppingIcon
-} from './cart-icon.styles';
+  ShoppingIcon,
+} from "./cart-icon.styles";
 import React from "react";
-import { toggleCartHidden as unboundImportedToogleCartHidden } from "../../redux/cart/cart.actions";
 import { connect } from "react-redux";
-import { selectCartItemsCount, selectCartItemsPrice } from '../../redux/cart/cart.selector';
-import {createStructuredSelector} from 'reselect';
-
+import {
+  selectCartItemsCount,
+  selectCartItemsPrice,
+} from "../../redux/cart/cart.selector";
+import { createStructuredSelector } from "reselect";
 
 const CartIcon = ({ toggleCartHidden, itemsCount, itemsTotalPrice }) => (
   <CartContainer onClick={toggleCartHidden}>
@@ -18,15 +19,11 @@ const CartIcon = ({ toggleCartHidden, itemsCount, itemsTotalPrice }) => (
     <PriceCountContainer>$ {itemsTotalPrice}</PriceCountContainer>
   </CartContainer>
 );
-//Status updater
-const mapDispatchToProps = (dispatch) => ({
-  //To avoid variable overshadowing, let's rename toggleCartHidden below.
-  toggleCartHidden: () => dispatch(unboundImportedToogleCartHidden()),
-});
+
 //Select function called mapStateToProps in Redux documentation.
-const mapStateToProps = createStructuredSelector ({
+const mapStateToProps = createStructuredSelector({
   itemsCount: selectCartItemsCount,
-  itemsTotalPrice: selectCartItemsPrice
+  itemsTotalPrice: selectCartItemsPrice,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartIcon);
+export default connect(mapStateToProps)(CartIcon);

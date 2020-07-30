@@ -7,7 +7,7 @@ import SigninAndSignup from './pages/signin-and-signup/signin-and-signup.compone
 import CheckoutPage from './pages/checkout/checkout.component';
 
 import { Switch, Route, Redirect } from 'react-router-dom';
-import Header from './components/header/header.component';
+import {default as Header} from './components/header/header.container';
 import { auth, createUserProfileDocument} from './firebase/firebase.utils';
 import { connect } from 'react-redux';
 import { setCurrentUser as unboundImportedSetCurrentUser } from './redux/user/user.actions';

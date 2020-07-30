@@ -9,7 +9,8 @@ import { store, persistor } from './redux/store';
 import { ApolloProvider } from 'react-apollo';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { ApolloClient, gql } from 'apollo-boost';
+import { ApolloClient } from 'apollo-boost';
+import { typeDefs, resolvers } from './graphql/resolvers';
 
 /*
 Since we are using react, we will wrap our root component with PersistGate.
@@ -34,7 +35,18 @@ const cache = new InMemoryCache();
 const client = new ApolloClient(
   {
     link: httpLink,
-    cache
+    cache,
+    typeDefs,
+    resolvers
+  }
+);
+
+client.writeData(
+  {
+    data: {
+      cartHidden: true,//When the app loads, we want the cart to be hidden. 
+      cartItems: []
+    }
   }
 );
 
