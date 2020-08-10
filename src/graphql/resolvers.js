@@ -1,5 +1,5 @@
 import { gql } from 'apollo-boost';
-import { addItemToCart } from './cart.utils';
+import { addItemToCart, getCartItemsCount, getCartPriceTotal } from './cart.utils';
 
 export const typeDefs = gql`
     extend type Mutation {
@@ -21,6 +21,14 @@ const GET_CART_HIDDEN = gql`
 const GET_CART_ITEMS = gql`
     {
         cartItems @client
+    }
+`;
+
+//Query for getting the number of items in the cart and the total price.
+const GET_CART_INFO = gql`
+    {
+        itemsCount @client
+        itemsTotalPrice @client
     }
 `;
 
@@ -57,6 +65,18 @@ export const resolvers = {
             );
             //Adding the new item that the user wants to add
             const newCartItems = addItemToCart(cartItems, item);
+
+            //Write query to the local cache to modify existing data i.e. to update the number of items and the total price
+            cache.writeQuery(
+                {
+                    query: GET_CART_INFO,
+                    data: {
+                        itemsCount: getCartItemsCount(newCartItems),
+                        itemsTotalPrice: getCartPriceTotal(newCartItems)
+                    }
+                }
+            );
+
             //Write the array of all items including the newly added item to the cache
             cache.writeQuery(
                 {

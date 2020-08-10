@@ -4,9 +4,10 @@ import {
   CollectionTitle,
 } from "./collection.styles";
 import React from "react";
-import CollectionItem from "../../components/collection-item/collection-item.component";
+import {default as CollectionItem} from "../../components/collection-item/collection-item.container";//?????
 
-const CollectionPage = ({ collection }) => {//??????
+const CollectionPage = ({ collection }) => {
+  //??????
   const { titel, items } = collection; //destructuring. Is null when app mounsts, and we show spinner until our app fetches data from Firebase.
   return (
     <CollectionPageContainer>

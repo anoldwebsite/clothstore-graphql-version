@@ -30,5 +30,10 @@ export const removeItemFromCart = (cartItems, cartItemToRemove) => {
     );
 };
 
+//Get the count of all the itmes in the cart.
 export const getCartItemsCount = cartItems => cartItems
     .reduce((accumulatedQuantity, cartItem) => accumulatedQuantity + cartItem.quantity, 0);
+
+//Get the total amount the customer has to pay for all the items in the cart.
+export const getCartPriceTotal = cartItems => cartItems.map(item => item.quantity * item.price)//This gives us an array of prices
+    .reduce((accumulatedPrice, priceForOneTypeOfProducts) => accumulatedPrice + priceForOneTypeOfProducts, 0)

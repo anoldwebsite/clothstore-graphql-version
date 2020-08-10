@@ -45,7 +45,9 @@ client.writeData(
   {
     data: {
       cartHidden: true,//When the app loads, we want the cart to be hidden. 
-      cartItems: []
+      cartItems: [],
+      itemsCount: 0,
+		  itemsTotalPrice: 0
     }
   }
 );

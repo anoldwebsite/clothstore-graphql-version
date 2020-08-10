@@ -19,8 +19,10 @@ const GET_CART_ITEMS = gql`
 const CartDropdownContainer = () => (
   <Mutation mutation={TOGGLE_CART_HIDDEN}>
     {
-      //togglCartHidden is returned by the mutation
-      ({togglCartHidden}) => (//??????? was not destructured.
+      //toggleCartHidden is returned by the mutation
+      (
+        toggleCartHidden //??????? was not destructured.
+      ) => (
         <Query query={GET_CART_ITEMS}>
           {
             //The query returns an object and we destructure data from it
@@ -28,13 +30,12 @@ const CartDropdownContainer = () => (
             ({ data: { cartItems } }) => (
               <CartDropdown
                 cartItems={cartItems}
-                togglCartHidden={togglCartHidden}
+                toggleCartHidden={toggleCartHidden}
               />
               /*
-                                  We are wrapping the component CartDropdown so 
-                                  that it gets the two functionalities 
-                                  cartItems and toggleCartHidden
-                              */
+                We are wrapping the component CartDropdown so that it gets the two 
+                functionalities cartItems and toggleCartHidden
+              */
             )
           }
         </Query>
